@@ -2,6 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -10,8 +11,12 @@
 	http://www.springframework.org/schema/context 
 	http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/util  
-	http://www.springframework.org/schema/util/spring-util.xsd">
+	http://www.springframework.org/schema/util/spring-util.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+	<tx:annotation-driven/>
+	
 	<context:component-scan base-package="com.udemy.barath.spring.springorm.product.dao.impl" />
 
 	<bean
@@ -21,24 +26,28 @@
 		p:username="root" p:password="TryThisOne" />
 
 
-	<bean class="org.springframework.orm.hibernate5"
-		name="sessionFactory" p:dataSource="dataSource">
+	<bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
+		name="sessionFactory" p:dataSource-ref="dataSource">
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialects">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
 			</props>
 		</property>
-		<property name="annotateClasses">
+		<property name="annotatedClasses">
 			<list>
 				<value>com.udemy.barath.spring.springorm.product.model.Product
 				</value>
 			</list>
 		</property>
 	</bean>
-
+	
 	<bean class="org.springframework.orm.hibernate5.HibernateTemplate"
 		name="hibernateTemplate" p:sessionFactory-ref="sessionFactory" />
+	
+	<bean class="org.springframework.orm.hibernate5.HibernateTransactionManager" name="transactionManager" p:sessionFactory-ref="sessionFactory" />
+
+	
 
 
 

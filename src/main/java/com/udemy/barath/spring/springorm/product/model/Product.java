@@ -14,7 +14,7 @@ public class Product {
 	@Column(name="name") //optional
 	private String name;
 	@Column(name="description")
-	private String desc;
+	private String description;
 	@Column(name="price")
 	private double price;
 
@@ -34,12 +34,12 @@ public class Product {
 		this.name = name;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public double getPrice() {
